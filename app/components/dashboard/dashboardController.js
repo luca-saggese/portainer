@@ -1,6 +1,6 @@
 angular.module('dashboard', [])
-.controller('DashboardController', ['$scope', '$q', 'Config', 'Container', 'ContainerHelper', 'Image', 'Network', 'Volume', 'Info', 'Messages',
-function ($scope, $q, Config, Container, ContainerHelper, Image, Network, Volume, Info, Messages) {
+.controller('DashboardController', ['$scope', '$q', 'Config', 'Container', 'ContainerHelper', 'Image', 'Network', 'Volume', 'Info', 'System', 'Messages',
+function ($scope, $q, Config, Container, ContainerHelper, Image, Network, Volume, Info, System, Messages) {
 
   $scope.containerData = {
     total: 0
@@ -14,6 +14,8 @@ function ($scope, $q, Config, Container, ContainerHelper, Image, Network, Volume
   $scope.volumeData = {
     total: 0
   };
+
+  $scope.systemData ={};
 
   function prepareContainerData(d, containersToHideLabels) {
     var running = 0;
@@ -65,6 +67,11 @@ function ($scope, $q, Config, Container, ContainerHelper, Image, Network, Volume
     $scope.infoData = info;
   }
 
+  function prepareSystemData(d) {
+    var system = d;
+    $scope.systemData = system;
+  }
+
   function fetchDashboardData(containersToHideLabels) {
     $('#loadingViewSpinner').show();
     $q.all([
@@ -72,13 +79,15 @@ function ($scope, $q, Config, Container, ContainerHelper, Image, Network, Volume
       Image.query({}).$promise,
       Volume.query({}).$promise,
       Network.query({}).$promise,
-      Info.get({}).$promise
+      Info.get({}).$promise,
+      System.df({}).$promise
     ]).then(function (d) {
       prepareContainerData(d[0], containersToHideLabels);
       prepareImageData(d[1]);
-      prepareVolumeData(d[2]);
+      prepareVolumeData(d[2]); 
       prepareNetworkData(d[3]);
       prepareInfoData(d[4]);
+      prepareSystemData(d[5]);
       $('#loadingViewSpinner').hide();
     }, function(e) {
       $('#loadingViewSpinner').hide();
