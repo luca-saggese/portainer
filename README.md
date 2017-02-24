@@ -30,16 +30,16 @@ Please note that the public demo cluster is **reset every 15min**.
 ##How to enable remote api
 * edit /etc/systemd/system/docker.service.d/remote-api.conf
 
-With the contents:
+With the contents:<br><br>
 
-[Service]
-ExecStart=
-ExecStart=/usr/bin/dockerd -H tcp://127.0.0.1:2376 -H unix:///var/run/docker.sock
+[Service]<br>
+ExecStart=<br>
+ExecStart=/usr/bin/dockerd -H tcp://127.0.0.1:2376 -H unix:///var/run/docker.sock<br><br>
 
-(Yes, the double ExecStart is necessary)
+(Yes, the double ExecStart is necessary)<br><br>
 
-After that run:
-sudo systemctl daemon-reload // reloading daemon definitions
+After that run:<br>
+sudo systemctl daemon-reload // reloading daemon definitions<br>
 sudo systemctl restart docker 
 
 ## Getting help
