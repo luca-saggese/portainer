@@ -3,8 +3,14 @@ angular.module('disk', [])
 function ($scope, $q, $state, Config, Image, System, ImageHelper, Messages, Pagination, ModalService) {
   $scope.state = {};
   $scope.state.pagination_count = Pagination.getPaginationCount('images');
+  $scope.state.pagination_count1 = Pagination.getPaginationCount('systemData.Containers');
+  $scope.state.pagination_count2 = Pagination.getPaginationCount('systemData.Volumes');
+  $scope.sortType1 = 'RepoTags';
+  $scope.sortReverse1 = true;
   $scope.sortType = 'RepoTags';
   $scope.sortReverse = true;
+  $scope.sortType2 = 'RepoTags';
+  $scope.sortReverse2 = true;
   $scope.state.selectedItemCount = 0;
   $scope.systemData ={};
 
@@ -22,6 +28,24 @@ function ($scope, $q, $state, Config, Image, System, ImageHelper, Messages, Pagi
 
   $scope.changePaginationCount = function() {
     Pagination.setPaginationCount('images', $scope.state.pagination_count);
+  };
+
+  $scope.order1 = function(sortType) {
+    $scope.sortReverse1 = ($scope.sortType1 === sortType) ? !$scope.sortReverse1 : false;
+    $scope.sortType1 = sortType;
+  };
+
+  $scope.changePaginationCount1 = function() {
+    Pagination.setPaginationCount('containers', $scope.state.pagination_count);
+  };
+
+  $scope.order2 = function(sortType) {
+    $scope.sortReverse2 = ($scope.sortType2 === sortType) ? !$scope.sortReverse2 : false;
+    $scope.sortType2 = sortType;
+  };
+
+  $scope.changePaginationCount2 = function() {
+    Pagination.setPaginationCount('volumes', $scope.state.pagination_count);
   };
 
   

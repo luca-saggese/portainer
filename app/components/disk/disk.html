@@ -25,7 +25,7 @@
             <option value="25">25</option>
             <option value="50">50</option>
             <option value="100">100</option>
-          </select>&nbsp;&nbsp;
+          </select>&nbsp;&nbsp; 
         </div>
       </rd-widget-header>
       <rd-widget-body classes="no-padding">
@@ -80,7 +80,7 @@
               </tr>
             </tbody>
           </table>
-          <div ng-if="systemData.Images" class="pull-left pagination-controls">
+          <div ng-if="systemData.Images.length >0" class="pull-left pagination-controls">
             <dir-pagination-controls></dir-pagination-controls>
           </div>
         </div>
@@ -99,7 +99,7 @@
         </div>
         <div class="pull-right">
           Items per page:
-          <select ng-model="state.pagination_count" ng-change="changePaginationCount()">
+          <select ng-model="state.pagination_count1" ng-change="changePaginationCount1()">
             <option value="0">All</option>
             <option value="10">10</option>
             <option value="25">25</option>
@@ -114,37 +114,37 @@
             <thead>
               <tr>
                 <th>
-                  <a ui-sref="disk" ng-click="order('Id')">
+                  <a ui-sref="disk" ng-click="order1('Id')">
                     Id
-                    <span ng-show="sortType == 'Id' && !sortReverse" class="glyphicon glyphicon-chevron-down"></span>
-                    <span ng-show="sortType == 'Id' && sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                    <span ng-show="sortType1 == 'Id' && !sortReverse1" class="glyphicon glyphicon-chevron-down"></span>
+                    <span ng-show="sortType1 == 'Id' && sortReverse1" class="glyphicon glyphicon-chevron-up"></span>
                   </a>
                 </th>
                 <th>
-                  <a ui-sref="disk" ng-click="order('RepoTags')">
+                  <a ui-sref="disk" ng-click="order1('RepoTags')">
                     Names
-                    <span ng-show="sortType == 'RepoTags' && !sortReverse" class="glyphicon glyphicon-chevron-down"></span>
-                    <span ng-show="sortType == 'RepoTags' && sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                    <span ng-show="sortType1 == 'RepoTags' && !sortReverse1" class="glyphicon glyphicon-chevron-down"></span>
+                    <span ng-show="sortType1 == 'RepoTags' && sortReverse1" class="glyphicon glyphicon-chevron-up"></span>
                   </a>
                 </th>
                 <th>
-                  <a ui-sref="disk" ng-click="order('VirtualSize')">
+                  <a ui-sref="disk" ng-click="order1('VirtualSize')">
                     Size
-                    <span ng-show="sortType == 'VirtualSize' && !sortReverse" class="glyphicon glyphicon-chevron-down"></span>
-                    <span ng-show="sortType == 'VirtualSize' && sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                    <span ng-show="sortType1 == 'VirtualSize' && !sortReverse1" class="glyphicon glyphicon-chevron-down"></span>
+                    <span ng-show="sortType1 == 'VirtualSize' && sortReverse1" class="glyphicon glyphicon-chevron-up"></span>
                   </a>
                 </th>
                 <th>
-                  <a ui-sref="disk" ng-click="order('Created')">
+                  <a ui-sref="disk" ng-click="order1('Created')">
                     Created
-                    <span ng-show="sortType == 'Created' && !sortReverse" class="glyphicon glyphicon-chevron-down"></span>
-                    <span ng-show="sortType == 'Created' && sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                    <span ng-show="sortType1 == 'Created' && !sortReverse1" class="glyphicon glyphicon-chevron-down"></span>
+                    <span ng-show="sortType1 == 'Created' && sortReverse1" class="glyphicon glyphicon-chevron-up"></span>
                   </a>
                 </th>
               </tr>
             </thead>
             <tbody>
-              <tr dir-paginate="image in (state.filteredContainers = (systemData.Containers | filter:state.filter1 | orderBy:sortType:sortReverse | itemsPerPage: state.pagination_count))">
+              <tr dir-paginate="image in (state.filteredContainers = (systemData.Containers | filter:state.filter1 | orderBy:sortType1:sortReverse1 | itemsPerPage: state.pagination_count1))">
                 <td><a ui-sref="container({id: image.Id})">{{ image.Id|truncate:20}}</a></td>
                 <td>
                   <span class="label label-primary image-tag" ng-repeat="tag in (image.Names)">{{ tag }}</span>
@@ -160,7 +160,7 @@
               </tr>
             </tbody>
           </table>
-          <div ng-if="systemData.Containers" class="pull-left pagination-controls">
+          <div ng-if="systemData.Containers.length >0" class="pull-left pagination-controls">
             <dir-pagination-controls></dir-pagination-controls>
           </div>
         </div>
@@ -178,7 +178,7 @@
         </div>
         <div class="pull-right">
           Items per page:
-          <select ng-model="state.pagination_count" ng-change="changePaginationCount()">
+          <select ng-model="state.pagination_count2" ng-change="changePaginationCount2()">
             <option value="0">All</option>
             <option value="10">10</option>
             <option value="25">25</option>
@@ -193,30 +193,30 @@
             <thead>
               <tr>
                 <th>
-                  <a ui-sref="disk" ng-click="order('Id')">
+                  <a ui-sref="disk" ng-click="order2('Id')">
                     Name
-                    <span ng-show="sortType == 'Id' && !sortReverse" class="glyphicon glyphicon-chevron-down"></span>
-                    <span ng-show="sortType == 'Id' && sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                    <span ng-show="sortType2 == 'Id' && !sortReverse2" class="glyphicon glyphicon-chevron-down"></span>
+                    <span ng-show="sortType2 == 'Id' && sortReverse2" class="glyphicon glyphicon-chevron-up"></span>
                   </a>
                 </th>
                 <th>
-                  <a ui-sref="disk" ng-click="order('RepoTags')">
+                  <a ui-sref="disk" ng-click="order2('RepoTags')">
                     Mountpoint
-                    <span ng-show="sortType == 'RepoTags' && !sortReverse" class="glyphicon glyphicon-chevron-down"></span>
-                    <span ng-show="sortType == 'RepoTags' && sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                    <span ng-show="sortType2 == 'RepoTags' && !sortReverse2" class="glyphicon glyphicon-chevron-down"></span>
+                    <span ng-show="sortType2 == 'RepoTags' && sortReverse2" class="glyphicon glyphicon-chevron-up"></span>
                   </a>
                 </th>
                 <th>
-                  <a ui-sref="disk" ng-click="order('VirtualSize')">
+                  <a ui-sref="disk" ng-click="order2('VirtualSize')">
                     Size
-                    <span ng-show="sortType == 'VirtualSize' && !sortReverse" class="glyphicon glyphicon-chevron-down"></span>
-                    <span ng-show="sortType == 'VirtualSize' && sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                    <span ng-show="sortType2 == 'VirtualSize' && !sortReverse2" class="glyphicon glyphicon-chevron-down"></span>
+                    <span ng-show="sortType2 == 'VirtualSize' && sortReverse2" class="glyphicon glyphicon-chevron-up"></span>
                   </a>
                 </th>
               </tr>
             </thead>
             <tbody>
-              <tr dir-paginate="image in (state.filteredVolumes = (systemData.Volumes | filter:state.filter2 | orderBy:sortType:sortReverse | itemsPerPage: state.pagination_count))">
+              <tr dir-paginate="image in (state.filteredVolumes = (systemData.Volumes | filter:state.filter2 | orderBy:sortType2:sortReverse2 | itemsPerPage: state.pagination_count2))">
                 <td><a href="#/volumes/">{{ image.Name|truncate:60 }}</a></td>
                 <td>{{ image.Mountpoint }}</td>
                 <td>{{ image.UsageData.Size|humansize }}</td>
@@ -229,7 +229,7 @@
               </tr>
             </tbody>
           </table>
-          <div ng-if="systemData.Volumes" class="pull-left pagination-controls">
+          <div ng-if="systemData.Volumes.length >0" class="pull-left pagination-controls">
             <dir-pagination-controls></dir-pagination-controls>
           </div>
         </div>

@@ -1,6 +1,6 @@
 angular.module('containers', [])
-.controller('ContainersController', ['$scope', '$filter', 'Container', 'ContainerHelper', 'Info', 'Settings', 'Messages', 'Config', 'Pagination', 'EntityListService',
-function ($scope, $filter, Container, ContainerHelper, Info, Settings, Messages, Config, Pagination, EntityListService) {
+.controller('ContainersController', ['$scope', '$filter', 'Container', 'ContainerHelper', 'Info', 'Settings', 'Messages', 'Config', 'Pagination', 'EntityListService', 'ModalService', 
+function ($scope, $filter, Container, ContainerHelper, Info, Settings, Messages, Config, Pagination, EntityListService, ModalService) {
   $scope.state = {};
   $scope.state.pagination_count = Pagination.getPaginationCount('containers');
   $scope.state.displayAll = Settings.displayAll;
@@ -142,12 +142,50 @@ function ($scope, $filter, Container, ContainerHelper, Info, Settings, Messages,
     batch($scope.containers, Container.start, "Started");
   };
 
+  $scope.confirmStop = function (force) {
+    ModalService.confirm({
+      title: "Are you sure?",
+      message: "Stopping the container would stop current running activities.",
+      buttons: {
+        confirm: {
+          label: 'Stop',
+        },
+        cancel: {
+          label: 'Cancel'
+        }
+      },
+      callback: function (confirmed) {
+        if(!confirmed) { return; }
+        $scope.stopAction();
+      }
+    });
+  };
+
   $scope.stopAction = function () {
     batch($scope.containers, Container.stop, "Stopped");
   };
 
   $scope.restartAction = function () {
     batch($scope.containers, Container.restart, "Restarted");
+  };
+
+  $scope.confirmKill = function (force) {
+    ModalService.confirm({
+      title: "Are you sure?",
+      message: "Forcing the kill could destroy th container data.",
+      buttons: {
+        confirm: {
+          label: 'Kill',
+        },
+        cancel: {
+          label: 'Cancel'
+        }
+      },
+      callback: function (confirmed) {
+        if(!confirmed) { return; }
+        $scope.killAction();
+      }
+    });
   };
 
   $scope.killAction = function () {
@@ -160,6 +198,25 @@ function ($scope, $filter, Container, ContainerHelper, Info, Settings, Messages,
 
   $scope.unpauseAction = function () {
     batch($scope.containers, Container.unpause, "Unpaused");
+  };
+
+  $scope.confirmRemove = function (force) {
+    ModalService.confirm({
+      title: "Are you sure?",
+      message: "You will loose all changes made from the image.",
+      buttons: {
+        confirm: {
+          label: 'Remove',
+        },
+        cancel: {
+          label: 'Cancel'
+        }
+      },
+      callback: function (confirmed) {
+        if(!confirmed) { return; }
+        $scope.removeAction();
+      }
+    });
   };
 
   $scope.removeAction = function () {
