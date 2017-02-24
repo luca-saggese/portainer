@@ -67,10 +67,6 @@ function ($scope, $q, Config, Container, ContainerHelper, Image, Network, Volume
     $scope.infoData = info;
   }
 
-  function prepareSystemData(d) {
-    var system = d;
-    $scope.systemData = system;
-  }
 
   function fetchDashboardData(containersToHideLabels) {
     $('#loadingViewSpinner').show();
@@ -79,15 +75,13 @@ function ($scope, $q, Config, Container, ContainerHelper, Image, Network, Volume
       Image.query({}).$promise,
       Volume.query({}).$promise,
       Network.query({}).$promise,
-      Info.get({}).$promise,
-      System.df({}).$promise
+      Info.get({}).$promise
     ]).then(function (d) {
       prepareContainerData(d[0], containersToHideLabels);
       prepareImageData(d[1]);
       prepareVolumeData(d[2]); 
       prepareNetworkData(d[3]);
       prepareInfoData(d[4]);
-      prepareSystemData(d[5]);
       $('#loadingViewSpinner').hide();
     }, function(e) {
       $('#loadingViewSpinner').hide();

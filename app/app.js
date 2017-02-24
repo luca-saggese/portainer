@@ -47,6 +47,7 @@ angular.module('portainer', [
   'swarm',
   'task',
   'templates',
+  'disk',
   'volumes'])
   .config(['$stateProvider', '$urlRouterProvider', '$httpProvider', 'localStorageServiceProvider', 'jwtOptionsProvider', 'AnalyticsProvider', function ($stateProvider, $urlRouterProvider, $httpProvider, localStorageServiceProvider, jwtOptionsProvider, AnalyticsProvider) {
     'use strict';
@@ -437,6 +438,19 @@ angular.module('portainer', [
         "content@": {
           templateUrl: 'app/components/templates/templates.html',
           controller: 'TemplatesController'
+        },
+        "sidebar@": {
+          templateUrl: 'app/components/sidebar/sidebar.html',
+          controller: 'SidebarController'
+        }
+      }
+    })
+    .state('disk', {
+      url: '/disk/',
+      views: {
+        "content@": {
+          templateUrl: 'app/components/disk/disk.html',
+          controller: 'DiskController'
         },
         "sidebar@": {
           templateUrl: 'app/components/sidebar/sidebar.html',

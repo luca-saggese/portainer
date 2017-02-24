@@ -34,56 +34,7 @@
     </rd-widget>
   </div>
 
-  <div ng-if="false" class="col-lg-12 col-md-12 col-xs-12" ng-if="applicationState.endpoint.mode.provider !== 'DOCKER_SWARM'">
-    <rd-widget>
-      <rd-widget-header icon="fa-pie-chart" title="Disk Usage"></rd-widget-header>
-      <rd-widget-body classes="no-padding">
-        <table class="table">
-          <tbody>
-            <tr>
-              <td>Images</td>
-            </tr>
-            <tr>
-              <td>ID</td>
-              <td>Created</td>
-              <td>Size</td>
-            </tr>
-            <tr ng-repeat="im in systemData.Images">
-              <td>{{ im.Id }}</td>
-              <td>{{ im.Created|getisodate }}</td>
-              <td>{{ im.Size|humansize }}</td>
-            </tr>
-            <tr>
-              <td>Containers</td>
-            </tr>
-            <tr>
-              <td>ID</td>
-              <td>Created</td>
-              <td>Size</td>
-            </tr>
-            <tr ng-repeat="im in systemData.Containers">
-              <td>{{ im.Id }}</td>
-              <td>{{ im.Created|getisodate }}</td>
-              <td>{{ im.SizeRootFs|humansize }}</td>
-            </tr>
-            <tr>
-              <td>Volumes</td>
-            </tr>
-            <tr>
-              <td>Name</td>
-              <td>Mount point</td>
-              <td>Size</td>
-            </tr>
-            <tr ng-repeat="im in systemData.Volumes">
-               <td>{{ im.Name }}</td>
-              <td>{{ im.Mountpoint }}</td>
-              <td>{{ im.UsageData.Size|humansize }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </rd-widget-body>
-    </rd-widget>
-  </div>
+ 
 
   <div class="col-lg-12 col-md-12 col-xs-12" ng-if="applicationState.endpoint.mode.provider === 'DOCKER_SWARM'">
     <rd-widget>
