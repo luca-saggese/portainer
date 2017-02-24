@@ -5,6 +5,7 @@ function ($scope, $filter, Container, ContainerHelper, Info, Settings, Messages,
   $scope.state.pagination_count = Pagination.getPaginationCount('containers');
   $scope.state.displayAll = Settings.displayAll;
   $scope.state.displayIP = false;
+  $scope.state.displaySize = false;
   $scope.sortType = 'State';
   $scope.sortReverse = false;
   $scope.state.selectedItemCount = 0;
@@ -22,7 +23,7 @@ function ($scope, $filter, Container, ContainerHelper, Info, Settings, Messages,
     $scope.state.selectedItemCount = 0;
     Container.query(data, function (d) {
       var containers = d;
-      if ($scope.containersToHideLabels) {
+      if ($scope.containersToHideLabels) { 
         containers = ContainerHelper.hideContainers(d, $scope.containersToHideLabels);
       }
       $scope.containers = containers.map(function (container) {
@@ -56,7 +57,7 @@ function ($scope, $filter, Container, ContainerHelper, Info, Settings, Messages,
       counter = counter - 1;
       if (counter === 0) {
         $('#loadContainersSpinner').hide();
-        update({all: Settings.displayAll ? 1 : 0});
+        update({all: Settings.displayAll ? 1 : 0, size: $scope.state.displaySize});
       }
     };
     angular.forEach(items, function (c) {
@@ -134,7 +135,7 @@ function ($scope, $filter, Container, ContainerHelper, Info, Settings, Messages,
 
   $scope.toggleGetAll = function () {
     Settings.displayAll = $scope.state.displayAll;
-    update({all: Settings.displayAll ? 1 : 0});
+    update({all: Settings.displayAll ? 1 : 0, size: $scope.state.displaySize});
   };
 
   $scope.startAction = function () {
@@ -185,10 +186,10 @@ function ($scope, $filter, Container, ContainerHelper, Info, Settings, Messages,
     if ($scope.applicationState.endpoint.mode.provider === 'DOCKER_SWARM') {
       Info.get({}, function (d) {
         $scope.swarm_hosts = retrieveSwarmHostsInfo(d);
-        update({all: Settings.displayAll ? 1 : 0});
+        update({all: Settings.displayAll ? 1 : 0, size: $scope.state.displaySize});
       });
     } else {
-      update({all: Settings.displayAll ? 1 : 0});
+      update({all: Settings.displayAll ? 1 : 0, size: $scope.state.displaySize});
     }
   });
 }]);

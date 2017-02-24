@@ -4,7 +4,7 @@ angular.module('portainer.rest')
   return $resource(Settings.url + '/containers/:id/:action', {
     name: '@name'
   }, {
-    query: {method: 'GET', params: {all: 0, action: 'json', filters: '@filters' }, isArray: true},
+    query: {method: 'GET', params: {all: 0 , action: 'json', filters: '@filters' }, isArray: true},
     get: {method: 'GET', params: {action: 'json'}},
     stop: {method: 'POST', params: {id: '@id', t: 5, action: 'stop'}},
     restart: {method: 'POST', params: {id: '@id', t: 5, action: 'restart'}},

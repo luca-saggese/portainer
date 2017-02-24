@@ -37,6 +37,7 @@
       </div>
       <div class="pull-right">
         <input type="checkbox" ng-model="state.displayAll" id="displayAll" ng-change="toggleGetAll()" style="margin-top: -2px; margin-right: 5px;"/><label for="displayAll">Show all containers</label>
+        <input type="checkbox" ng-model="state.displaySize" id="displaySize" ng-change="toggleGetAll()" style="margin-top: -2px; margin-right: 5px;"/><label for="displaySize">Show size</label>
         <input type="text" id="filter" ng-model="state.filter" placeholder="Filter..." class="form-control input-sm" />
       </div>
     </rd-widget-taskbar>
@@ -90,6 +91,13 @@
                   <span ng-show="sortType == 'Ports' && sortReverse" class="glyphicon glyphicon-chevron-up"></span>
                 </a>
               </th>
+              <th ng-if="state.displaySize">
+                <a ui-sref="containers" ng-click="order('Size')">
+                  Size
+                  <span ng-show="sortType == 'Ports' && !sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                  <span ng-show="sortType == 'Ports' && sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                </a>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -107,6 +115,7 @@
                 </a>
                 <span ng-if="container.Ports.length == 0" >-</span>
               </td>
+              <td ng-if="state.displaySize">{{ container.SizeRw }} / {{ container.SizeRootFs }}</td>
             </tr>
             <tr ng-if="!containers">
               <td colspan="8" class="text-center text-muted">Loading...</td>
