@@ -27,6 +27,21 @@ Please note that the public demo cluster is **reset every 15min**.
 * [Deploy Portainer](https://portainer.readthedocs.io/en/latest/deployment.html)
 * [Documentation](https://portainer.readthedocs.io)
 
+##How to enable remote api
+* edit /etc/systemd/system/docker.service.d/remote-api.conf
+
+With the contents:
+
+[Service]
+ExecStart=
+ExecStart=/usr/bin/dockerd -H tcp://127.0.0.1:2376 -H unix:///var/run/docker.sock
+
+(Yes, the double ExecStart is necessary)
+
+After that run:
+sudo systemctl daemon-reload // reloading daemon definitions
+sudo systemctl restart docker 
+
 ## Getting help
 
 * Issues: https://github.com/portainer/portainer/issues
