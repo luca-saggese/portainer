@@ -115,7 +115,7 @@
                 </a>
                 <span ng-if="container.Ports.length == 0" >-</span>
               </td>
-              <td ng-if="state.displaySize">{{ container.SizeRw }} / {{ container.SizeRootFs }}</td>
+              <td ng-if="state.displaySize">{{ container.SizeRw|humansize}} / {{ container.SizeRootFs|humansize}}</td>
             </tr>
             <tr ng-if="!containers">
               <td colspan="8" class="text-center text-muted">Loading...</td>
