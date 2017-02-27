@@ -53,6 +53,10 @@ html, body, #content-wrapper, .page-content, #view {
   font-size: 18px;
 }
 
+#disk-legend {
+  text-align: center;
+}
+
 #disk-legend span {
   display: inline;
   font-size: 18px;
