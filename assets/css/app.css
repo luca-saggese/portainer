@@ -53,6 +53,11 @@ html, body, #content-wrapper, .page-content, #view {
   font-size: 18px;
 }
 
+#disk-legend span {
+  display: inline;
+  font-size: 18px;
+}
+
 .header_title_content {
   margin-left: 5px;
 }

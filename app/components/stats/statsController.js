@@ -32,6 +32,11 @@ function (Pagination, $scope, Messages, $timeout, Container, ContainerTop, $stat
     var networkLabels = [];
     var networkTxData = [];
     var networkRxData = [];
+    var diskLabels = [];
+    var diskReadData = [];
+    var diskWriteData = [];
+
+
     for (var i = 0; i < 20; i++) {
       cpuLabels.push('');
       cpuData.push(0);
@@ -40,13 +45,24 @@ function (Pagination, $scope, Messages, $timeout, Container, ContainerTop, $stat
       networkLabels.push('');
       networkTxData.push(0);
       networkRxData.push(0);
+      diskLabels.push('');
+      diskReadData.push(0);
+      diskWriteData.push(0);
     }
+
     var cpuDataset = { // CPU Usage
       fillColor: "rgba(151,187,205,0.5)",
       strokeColor: "rgba(151,187,205,1)",
       pointColor: "rgba(151,187,205,1)",
       pointStrokeColor: "#fff",
       data: cpuData
+    };
+    var cpuPieDataset = { // CPU Usage
+      fillColor: "rgba(151,187,205,0.5)",
+      strokeColor: "rgba(151,187,205,1)",
+      pointColor: "rgba(151,187,205,1)",
+      pointStrokeColor: "#fff",
+      data: [60,40]
     };
     var memoryDataset = {
       fillColor: "rgba(151,187,205,0.5)",
@@ -71,6 +87,23 @@ function (Pagination, $scope, Messages, $timeout, Container, ContainerTop, $stat
       pointStrokeColor: "#fff",
       data: networkTxData
     };
+
+    var diskReadDataset = {
+      label: "Bytes Read",
+      fillColor: "rgba(151,187,205,0.5)",
+      strokeColor: "rgba(151,187,205,1)",
+      pointColor: "rgba(151,187,205,1)",
+      pointStrokeColor: "#fff",
+      data: diskReadData
+    };
+    var diskWriteDataset = {
+      label: "Bytes Written",
+      fillColor: "rgba(255,180,174,0.5)",
+      strokeColor: "rgba(255,180,174,1)",
+      pointColor: "rgba(255,180,174,1)",
+      pointStrokeColor: "#fff",
+      data: diskWriteData
+    };
     var networkLegendData = [
       {
         //value: '',
@@ -84,7 +117,21 @@ function (Pagination, $scope, Messages, $timeout, Container, ContainerTop, $stat
       }
     ];
 
+    var diskLegendData = [
+      {
+        //value: '',
+        color: 'rgba(151,187,205,0.5)',
+        title: 'Bytes Read'
+      },
+      {
+        //value: '',
+        color: 'rgba(255,180,174,0.5)',
+        title: 'Bytes Written'
+      }
+    ];
+
     legend($('#network-legend').get(0), networkLegendData);
+    legend($('#disk-legend').get(0), diskLegendData);
 
     Chart.defaults.global.animationSteps = 30; // Lower from 60 to ease CPU load.
     var cpuChart = new Chart($('#cpu-stats-chart').get(0).getContext("2d")).Line({
@@ -93,6 +140,12 @@ function (Pagination, $scope, Messages, $timeout, Container, ContainerTop, $stat
     }, {
       responsive: true
     });
+    /*var cpuPie = new Chart($('#cpu-stats-pie').get(0).getContext("2d")).Pie({
+      labels: cpuLabels,
+      datasets: [cpuPieDataset]
+    }, {
+      responsive: true
+    });*/
 
     var memoryChart = new Chart($('#memory-stats-chart').get(0).getContext('2d')).Line({
       labels: memoryLabels,
@@ -119,6 +172,17 @@ function (Pagination, $scope, Messages, $timeout, Container, ContainerTop, $stat
     });
     $scope.networkLegend = $sce.trustAsHtml(networkChart.generateLegend());
 
+    var diskChart = new Chart($('#disk-stats-chart').get(0).getContext("2d")).Line({
+      labels: diskLabels,
+      datasets: [diskReadDataset, diskWriteDataset]
+    }, {
+      scaleLabel: function (valueObj) {
+        return humansizeFilter(parseInt(valueObj.value, 10), 2);
+      },
+      responsive: true
+    });
+    $scope.diskLegend = $sce.trustAsHtml(diskChart.generateLegend());
+
 
     function updateStats() {
       Container.stats({id: $stateParams.id}, function (d) {
@@ -134,6 +198,7 @@ function (Pagination, $scope, Messages, $timeout, Container, ContainerTop, $stat
         $scope.data = d;
         updateCpuChart(d);
         updateMemoryChart(d);
+        updateDiskChart(d);
         updateNetworkChart(d);
         setUpdateStatsTimeout();
       }, function () {
@@ -160,8 +225,29 @@ function (Pagination, $scope, Messages, $timeout, Container, ContainerTop, $stat
       memoryChart.removeData();
     }
 
-    var lastRxBytes = 0, lastTxBytes = 0;
+    var lastReadBytes = 0, lastWriteBytes = 0;
 
+
+
+    function updateDiskChart(data) {
+      if (data.blkio_stats) {
+        var rxBytes = 0, txBytes = 0;
+        data.blkio_stats.io_service_bytes_recursive.forEach(function(v){
+          if(v.op=="Read"){
+            rxBytes = v.value - lastReadBytes;
+            lastReadBytes=v.value;
+          }
+          if(v.op=="Write"){
+            txBytes = v.value - lastWriteBytes;
+            lastWriteBytes=v.value;
+          }
+        });
+        diskChart.addData([rxBytes, txBytes], new Date(data.read).toLocaleTimeString());
+        diskChart.removeData();
+      }
+    }
+
+    var lastRxBytes = 0, lastTxBytes = 0;
     function updateNetworkChart(data) {
       // 1.9+ contains an object of networks, for now we'll just show stats for the first network
       // TODO: Show graphs for all networks

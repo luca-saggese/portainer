@@ -30,6 +30,14 @@
       </rd-widget-body>
     </rd-widget>
   </div>
+  <!--div class="col-lg-1">
+    <rd-widget>
+      <rd-widget-header icon="fa-area-chart" title="CPU usage"></rd-widget-header>
+      <rd-widget-body>
+        <canvas id="cpu-stats-pie" width="770" height="230"></canvas>
+      </rd-widget-body>
+    </rd-widget>
+  </div-->
   <div class="col-lg-6">
     <rd-widget>
       <rd-widget-header icon="fa-area-chart" title="Memory usage"></rd-widget-header>
@@ -53,6 +61,19 @@
     </rd-widget>
   </div>
   <div class="col-lg-6">
+    <rd-widget>
+      <rd-widget-header icon="fa-area-chart" title="Disk IO"></rd-widget-header>
+      <rd-widget-body>
+        <canvas id="disk-stats-chart" width="770" height="230"></canvas>
+        <div class="comment">
+          <div id="disk-legend" style="margin-bottom: 20px;"></div>
+        </div>
+      </rd-widget-body>
+    </rd-widget>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-12">
     <rd-widget>
       <rd-widget-header icon="fa-tasks" title="Processes">
         <div class="pull-right">
